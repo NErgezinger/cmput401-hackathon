@@ -4,9 +4,9 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from datetime import datetime
 
-from .forms import *
-
+from .models import *
 
 def home(request):
     return HttpResponse('homepage')
@@ -25,36 +25,44 @@ def day_mood(request):
         return render(request, 'Main/day_mood.html')
 
     elif request.method == 'POST':
-        pass
+        if Calendar.objects.count() == 0:
+            Calendar.objects.create(data={})
 
+        calendar = Calendar.objects.all()[0]
+
+        time_ymd = datetime.now().strftime(r'%Y/%m/%d')
+
+        calendar.data[time_ymd] = {}
+        calendar.data[time_ymd]['mood'] = request.POST['mood']
+
+        calendar.save()
+
+        return redirect(profile)
 
 def test_data(request):
     Calendar.objects.all().delete()
-    Calendar.objects.create(data = {
-            'name' : 'john cena',
+
+    c = Calendar.objects.create(data = {
+        '2021/09/11': {
             'activities' : ['stacking bread'],
             'score' : '5'
+        },
+        '2021/09/10': {
+
+        }
         })
 
-    Calendar.objects.create(data = {
-            'name' : 'kishan cena',
-            'activities' : ['studying'],
-            'score' : '1'
-        })
+    print(c.data)
 
-    Calendar.objects.create(data = {
-            'name' : 'ayman cena',
-            'activities' : ['napping'],
-            'score' : '14'
-        })
+    c.data['2021/09/11']['activities'] = ['changed']
 
-    Calendar.objects.create(data = {
-            'name' : 'John cena Jr',
-            'activities' : ['Wrestling', 'Boxing'],
-            'score' : '5'
-        })
+    print(c.data)
 
-    print(Calendar.Objects.all())
+
+
+   
+
+    #c.save()
 
 # def create_account(request):
 #     if request.method == 'GET':
