@@ -58,16 +58,21 @@ def activities(request):
         return render(request, 'Main/activities_form.html', context={'activities': activities_list})
 
     elif request.method == 'POST':
-        if time_ymd not in calendar:
-            calendar[time_ymd] = {}
-        if 'activities' not in calendar[time_ymd]:
-            calendar[time_ymd]['activities'] = []
+        if request.POST['type'] == 'add':
+            if time_ymd not in calendar:
+                calendar[time_ymd] = {}
+            if 'activities' not in calendar[time_ymd]:
+                calendar[time_ymd]['activities'] = []
 
-        calendar[time_ymd]['activities'].append(request.POST['activity'])
-        calendar_obj.save()
+            calendar[time_ymd]['activities'].append(request.POST['activity'])
+            calendar_obj.save()
+            return redirect(activities)
 
-        return redirect(activities)
-
+        elif request.POST['type'] == 'delete':
+            if time_ymd in calendar and 'activities' in calendar[time_ymd] and request.POST['activity'] in calendar[time_ymd]['activities']:
+                calendar[time_ymd]['activities'].remove(request.POST['activity'])
+            calendar_obj.save()
+            return redirect(activities)
 
 
 def test_data(request):
