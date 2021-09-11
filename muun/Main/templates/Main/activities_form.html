@@ -1,0 +1,25 @@
+{% extends 'Main/base.html' %}
+
+{% block content %}
+<form action="" method="POST">
+    {% csrf_token %}
+
+    <label for="activity">Add an activity: </label>
+    <input type="text" name="activity" id="activity">
+
+    <input type="submit" value="Submit">
+
+</form>
+
+<h2>Today's Activities: </h2>
+
+<ul>
+    {% for a in activities %}
+        <li>
+            {{ a }}
+        </li>
+    {% endfor %}
+</ul>
+
+
+{% endblock %}

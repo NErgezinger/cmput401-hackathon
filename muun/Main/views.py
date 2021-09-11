@@ -39,6 +39,37 @@ def day_mood(request):
 
         return redirect(profile)
 
+
+def activities(request):
+    if Calendar.objects.count() == 0:
+        Calendar.objects.create(data={})
+
+    calendar_obj = Calendar.objects.all()[0]
+    calendar = calendar_obj.data
+
+    time_ymd = datetime.now().strftime(r'%Y/%m/%d')
+
+    if time_ymd in calendar and 'activities' in calendar[time_ymd]:
+        activities_list = calendar[time_ymd]['activities']
+    else:
+        activities_list = []
+
+    if request.method == 'GET':
+        return render(request, 'Main/activities_form.html', context={'activities': activities_list})
+
+    elif request.method == 'POST':
+        if time_ymd not in calendar:
+            calendar[time_ymd] = {}
+        if 'activities' not in calendar[time_ymd]:
+            calendar[time_ymd]['activities'] = []
+
+        calendar[time_ymd]['activities'].append(request.POST['activity'])
+        calendar_obj.save()
+
+        return redirect(activities)
+
+
+
 def test_data(request):
     Calendar.objects.all().delete()
 
