@@ -1,10 +1,20 @@
 from django.db import models
 
-# Create your models here.
-class user(models.Model):
-    name = models.CharField(max_length=50)
+
+class Calendar(models.Model):
+    data = models.JSONField()    
 
     def __str__(self):
-        return self.name 
+        return str(self.data)
+        
+
+
+
+
+
+
+
+
+
 
 
