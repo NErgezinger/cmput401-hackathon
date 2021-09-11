@@ -1,0 +1,14 @@
+{% extends 'Main/base.html' %}
+
+{% block content %}
+<form action="" method="POST">
+    {% csrf_token %}
+
+    <label for="mood">Today's mood: </label>
+    <input type="text" name="mood" id="mood">
+
+    <input type="submit" value="Submit">
+
+</form>
+
+{% endblock %}

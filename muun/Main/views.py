@@ -3,9 +3,9 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from datetime import datetime
 
-from .forms import *
-
+from .models import *
 
 def home(request):
     return HttpResponse('homepage')
@@ -22,8 +22,19 @@ def day_mood(request):
         return render(request, 'Main/day_mood.html')
 
     elif request.method == 'POST':
-        pass
+        if Calendar.objects.count() == 0:
+            Calendar.objects.create(data={})
 
+        calendar = Calendar.objects.all()[0]
+
+        time_ymd = datetime.now().strftime(r'%Y/%m/%d')
+
+        calendar.data[time_ymd] = {}
+        calendar.data[time_ymd]['mood'] = request.POST['mood']
+
+        calendar.save()
+
+        return redirect(profile)
 
 
 
