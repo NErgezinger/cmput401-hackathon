@@ -6,6 +6,7 @@
 
     <label for="activity">Add an activity: </label>
     <input type="text" name="activity" id="activity">
+    <input type="hidden" name="type" value="add">
 
     <input type="submit" value="Submit">
 
@@ -16,7 +17,13 @@
 <ul>
     {% for a in activities %}
         <li>
-            {{ a }}
+            {{ a }} 
+            <form action="" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="activity" value="{{ a }}">
+                <input type="hidden" name="type" value="delete">
+                <input type="submit" value="Delete">
+            </form>
         </li>
     {% endfor %}
 </ul>
