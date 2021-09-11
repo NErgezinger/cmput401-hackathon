@@ -39,6 +39,42 @@ def day_mood(request):
 
         return redirect(profile)
 
+
+def activities(request):
+    if Calendar.objects.count() == 0:
+        Calendar.objects.create(data={})
+
+    calendar_obj = Calendar.objects.all()[0]
+    calendar = calendar_obj.data
+
+    time_ymd = datetime.now().strftime(r'%Y/%m/%d')
+
+    if time_ymd in calendar and 'activities' in calendar[time_ymd]:
+        activities_list = calendar[time_ymd]['activities']
+    else:
+        activities_list = []
+
+    if request.method == 'GET':
+        return render(request, 'Main/activities_form.html', context={'activities': activities_list})
+
+    elif request.method == 'POST':
+        if request.POST['type'] == 'add':
+            if time_ymd not in calendar:
+                calendar[time_ymd] = {}
+            if 'activities' not in calendar[time_ymd]:
+                calendar[time_ymd]['activities'] = []
+
+            calendar[time_ymd]['activities'].append(request.POST['activity'])
+            calendar_obj.save()
+            return redirect(activities)
+
+        elif request.POST['type'] == 'delete':
+            if time_ymd in calendar and 'activities' in calendar[time_ymd] and request.POST['activity'] in calendar[time_ymd]['activities']:
+                calendar[time_ymd]['activities'].remove(request.POST['activity'])
+            calendar_obj.save()
+            return redirect(activities)
+
+
 def test_data(request):
     Calendar.objects.all().delete()
 
@@ -72,6 +108,31 @@ def test_data(request):
         
 
     return HttpResponse('test')
+
+
+    c.data['2021/09/11']['activities'] = ['changed']
+
+
+    c.data["new date"] =  {
+            'activities' : ['activity 3'],
+            'score' : '3'
+        }
+
+    c.save()
+
+    total = 0
+    count = 0
+    for x in (Calendar.objects.all()[0].data.values()):
+        total += int(x['score'])
+        count += 1 
+    
+    print(total/count)
+
+        
+
+    # score = 0
+    # for x in c.values():
+    #     score += c.values[1]
 
 
     #c.save()
