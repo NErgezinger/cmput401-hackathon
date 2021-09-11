@@ -48,19 +48,36 @@ def test_data(request):
             'score' : '5'
         },
         '2021/09/10': {
-
+            'activities' : ['activity 2'],
+            'score' : '2'
         }
         })
 
-    print(c.data)
 
     c.data['2021/09/11']['activities'] = ['changed']
 
-    print(c.data)
 
+    c.data["new date"] =  {
+            'activities' : ['activity 3'],
+            'score' : '3'
+        }
 
+    c.save()
 
-   
+    total = 0
+    count = 0
+    for x in (Calendar.objects.all()[0].data.values()):
+        total += int(x['score'])
+        count += 1 
+    
+    print(total/count)
+
+        
+
+    # score = 0
+    # for x in c.values():
+    #     score += c.values[1]
+
 
     #c.save()
 
