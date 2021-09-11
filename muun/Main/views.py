@@ -44,23 +44,35 @@ def test_data(request):
 
     c = Calendar.objects.create(data = {
         '2021/09/11': {
-            'activities' : ['stacking bread'],
-            'score' : '5'
+            'activities' : ['activity1', 'activity2', 'activity3'],
+            'score' : '10'
         },
         '2021/09/10': {
-
+            'activities': ['activity2', 'activity4'],
+            'score': '20'
         }
         })
+    c.save()
+    activities = []
+    for x in (Calendar.objects.all()[0].data.values()):
+        for activity in x['activities']:
+            activities.append(activity)
+    activities = set(activities)
+    print(activities)
+    activityScores = {}
+    for activity in activities:
+        total = 0
+        count = 0
+        for x in (Calendar.objects.all()[0].data.values()):
+            if activity in x['activities']:
+                total += int(x['score'])
+                count += 1
+        activityScores[activity] = total/count
+    print(activityScores)
+        
 
-    print(c.data)
+    return HttpResponse('test')
 
-    c.data['2021/09/11']['activities'] = ['changed']
-
-    print(c.data)
-
-
-
-   
 
     #c.save()
 
