@@ -1,3 +1,4 @@
+from muun.Main.models import Calendar
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
@@ -13,6 +14,8 @@ def home(request):
 
 def profile(request):
     return render(request, 'Main/profile.html', context={'user': request.user})
+
+
 
 
 def day_mood(request):
@@ -36,10 +39,31 @@ def day_mood(request):
 
         return redirect(profile)
 
+def test_data(request):
+    Calendar.objects.all().delete()
+    Calendar.objects.create(data = {
+            'name' : 'john cena',
+            'activities' : ['stacking bread'],
+            'score' : '5'
+        })
 
+    Calendar.objects.create(data = {
+            'name' : 'kishan cena',
+            'activities' : ['studying'],
+            'score' : '1'
+        })
 
+    Calendar.objects.create(data = {
+            'name' : 'ayman cena',
+            'activities' : ['napping'],
+            'score' : '14'
+        })
 
-
+    Calendar.objects.create(data = {
+            'name' : 'John cena Jr',
+            'activities' : ['Wrestling', 'Boxing'],
+            'score' : '5'
+        })
 
 
 # def create_account(request):
