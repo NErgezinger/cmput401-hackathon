@@ -1,4 +1,4 @@
-from muun.Main.models import Calendar
+from Main.models import Calendar
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
@@ -38,7 +38,7 @@ def test_data(request):
 
     Calendar.objects.create(data = {
             'name' : 'kishan cena',
-            'activities' : ['studying'],
+            'activities' : ['studying'],   
             'score' : '1'
         })
 
@@ -54,6 +54,7 @@ def test_data(request):
             'score' : '5'
         })
 
+    print(Calendar.data)
 
 # def create_account(request):
 #     if request.method == 'GET':
