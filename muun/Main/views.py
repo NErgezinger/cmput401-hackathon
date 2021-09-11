@@ -41,31 +41,28 @@ def day_mood(request):
 
 def test_data(request):
     Calendar.objects.all().delete()
-    Calendar.objects.create(data = {
-            'name' : 'john cena',
+
+    c = Calendar.objects.create(data = {
+        '2021/09/11': {
             'activities' : ['stacking bread'],
             'score' : '5'
+        },
+        '2021/09/10': {
+
+        }
         })
 
-    Calendar.objects.create(data = {
-            'name' : 'kishan cena',
-            'activities' : ['studying'],   
-            'score' : '1'
-        })
+    print(c.data)
 
-    Calendar.objects.create(data = {
-            'name' : 'ayman cena',
-            'activities' : ['napping'],
-            'score' : '14'
-        })
+    c.data['2021/09/11']['activities'] = ['changed']
 
-    Calendar.objects.create(data = {
-            'name' : 'John cena Jr',
-            'activities' : ['Wrestling', 'Boxing'],
-            'score' : '5'
-        })
+    print(c.data)
 
-    print(Calendar.data)
+
+
+   
+
+    #c.save()
 
 # def create_account(request):
 #     if request.method == 'GET':
