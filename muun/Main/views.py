@@ -11,21 +11,14 @@ import math
 from .models import *
 
 def home(request):
-    return HttpResponse('homepage')
+    return redirect(day_mood)
 
-
-def profile(request):
-    return render(request, 'Main/profile.html', context={'user': request.user})
 
 def index(request):
     return render(request, 'Main/index.html')
 
 
-
-
 def day_mood(request):
-    user = request.user
-
     if request.method == 'GET':
         return render(request, 'Main/day_mood.html')
 
@@ -42,7 +35,7 @@ def day_mood(request):
 
         calendar.save()
 
-        return redirect(profile)
+        return redirect(activities)
 
 
 def activities(request):

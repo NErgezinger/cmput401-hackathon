@@ -4,29 +4,37 @@
 <form action="" method="POST">
     {% csrf_token %}
 
-    <label for="activity">Add an activity: </label>
-    <input type="text" name="activity" id="activity">
+    <h1>What did you do today?</h1>
+    <input class="form-control" type="text" name="activity" id="activity" style="width: 240px;">
     <input type="hidden" name="type" value="add">
-
-    <input type="submit" value="Submit">
+    <br>
+    <input class="btn btn-info" type="submit" value="Add">
 
 </form>
 
 <h2>Today's Activities: </h2>
 
-<ul>
-    {% for a in activities %}
-        <li>
-            {{ a }} 
-            <form action="" method="POST">
-                {% csrf_token %}
-                <input type="hidden" name="activity" value="{{ a }}">
-                <input type="hidden" name="type" value="delete">
-                <input type="submit" value="Delete">
-            </form>
-        </li>
-    {% endfor %}
-</ul>
+<div class="col-3">
+    <ul class="list-group">
+        {% for a in activities %}
+            <div class="row">
+                <li class="list-group-item">
+                    <form action="" method="POST">
+                        <h4>{{ a }}</h4> 
+                        {% csrf_token %}
+                        <div class="col-2"><input type="hidden" name="activity" value="{{ a }}"></div>
+                        <div class="col-2"><input class="btn btn-danger" type="submit" value="Delete"></div>
+                        <input type="hidden" name="type" value="delete">
+                    </form>
+                </li>
+            </div>
+        {% endfor %}
+    </ul>
+</div>
+
+<br><br>
+
+<a class="btn btn-info" href="/summary/">View Summary</a>
 
 
 {% endblock %}
