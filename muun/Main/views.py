@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from datetime import datetime
+from collections import Counter
 
 from .models import *
 
@@ -33,7 +34,7 @@ def day_mood(request):
         time_ymd = datetime.now().strftime(r'%Y/%m/%d')
 
         calendar.data[time_ymd] = {}
-        calendar.data[time_ymd]['mood'] = request.POST['mood']
+        calendar.data[time_ymd]['mood'] = int(request.POST['mood'])
 
         calendar.save()
 
@@ -73,6 +74,25 @@ def activities(request):
                 calendar[time_ymd]['activities'].remove(request.POST['activity'])
             calendar_obj.save()
             return redirect(activities)
+
+
+def summary(request):
+    calendar = Calendar.objects.all()[0].data
+
+    moods = ['amazing', 'good', 'neutral', 'bad', 'terrible']
+
+    days = []
+    mood_list = []
+
+    for day, data in calendar.items():
+        days.append(day)
+        mood_list.append(data['mood'])
+
+    mood_counts = Counter(mood_list)
+
+    mood_counts_ordered = [mood_counts[2], mood_counts[1], mood_counts[0], mood_counts[-1], mood_counts[-2]]
+
+    return render(request, 'Main/summary.html', context={'mood_list': moods, 'mood_counts': mood_counts_ordered})
 
 
 def test_data(request):

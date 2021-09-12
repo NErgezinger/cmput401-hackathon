@@ -8,6 +8,7 @@ urlpatterns = [
     path('day_mood/', views.day_mood),
     path('test_data/', views.test_data),
     path('activities/', views.activities),
+    path('summary/', views.summary),
     
 
 
