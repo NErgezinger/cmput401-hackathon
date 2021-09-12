@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from datetime import datetime
+import math
 
 from .models import *
 
@@ -102,6 +103,7 @@ def test_data(request):
     for activity in activities:
         total = 0
         count = 0
+        print('test')
         for x in (Calendar.objects.all()[0].data.values()):
             if activity in x['activities']:
                 total += int(x['score'])
@@ -109,28 +111,21 @@ def test_data(request):
         activityScores[activity] = total/count
     print(activityScores)
         
+    activityScores = dict(sorted(activityScores.items(), key = lambda item : item[1]))
+    sortedScores = list(activityScores.items())
+    print(sortedScores)
+
+    # length = len(activityScores)
+    # fifth = length/5
+    # for x in range(5):
+    #     print(str(x+1) + ' ' + sortedScores[round(fifth)][0])
+    #     fifth += length/5
+    
+    
 
     return HttpResponse('test')
 
-
-    c.data['2021/09/11']['activities'] = ['changed']
-
-
-    c.data["new date"] =  {
-            'activities' : ['activity 3'],
-            'score' : '3'
-        }
-
-    c.save()
-
-    total = 0
-    count = 0
-    for x in (Calendar.objects.all()[0].data.values()):
-        total += int(x['score'])
-        count += 1 
     
-    print(total/count)
-
         
 
     # score = 0
