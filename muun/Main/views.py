@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 from datetime import datetime
 from collections import Counter
 import math
+import json
 
 from .models import *
 
@@ -30,7 +31,9 @@ def day_mood(request):
 
         time_ymd = datetime.now().strftime(r'%Y/%m/%d')
 
-        calendar.data[time_ymd] = {}
+        if time_ymd not in calendar.data:
+            calendar.data[time_ymd] = {}
+
         calendar.data[time_ymd]['mood'] = int(request.POST['mood'])
 
         calendar.save()
@@ -75,7 +78,6 @@ def activities(request):
 
 def summary(request):
     calendar = Calendar.objects.all()[0].data
-    print(calendar)
 
     moods = ['amazing', 'good', 'neutral', 'bad', 'terrible']
 
@@ -91,7 +93,52 @@ def summary(request):
 
     mood_counts_ordered = [mood_counts[2], mood_counts[1], mood_counts[0], mood_counts[-1], mood_counts[-2]]
 
-    return render(request, 'Main/summary.html', context={'mood_list': moods, 'mood_counts': mood_counts_ordered})
+    activities = []
+    for x in (Calendar.objects.all()[0].data.values()):
+        for activity in x['activities']:
+            activities.append(activity)
+    activities = set(activities)
+    activityScores = {}
+    for activity in activities:
+        total = 0
+        count = 0
+        for x in (Calendar.objects.all()[0].data.values()):
+            if activity in x['activities']:
+                total += int(x['mood'])
+                count += 1
+        activityScores[activity] = total/count
+        
+    activityScores = dict(sorted(activityScores.items(), key = lambda item : item[1]))
+    sortedScores = list(activityScores.items())
+
+    # Find overall average mood
+    total = 0
+    count = 0
+    for x in (Calendar.objects.all()[0].data.values()):
+        total += int(x['mood'])
+        count += 1
+    averageMood = total/count
+
+    bestActivities = []
+    worstActivites = []
+
+    if (len(sortedScores) < 10):
+        for x in sortedScores:
+            if (x[1] > averageMood):
+                bestActivities.append(x[0])
+            else:
+                worstActivites.append(x[0])
+    else:
+        for x in sortedScores[-5:]:
+            bestActivities.append(x[0])
+        for x in sortedScores[:5]:
+            worstActivites.append(x[0])
+
+    bestActivities.reverse()
+    worstActivites.reverse()
+
+
+    return render(request, 'Main/summary.html', context={'mood_list': moods, 'mood_counts': mood_counts_ordered, 'best': bestActivities, 'worst': worstActivites})
 
 
 def test_data(request):

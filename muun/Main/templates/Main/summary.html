@@ -2,8 +2,39 @@
 
 {% block content %}
 
+<style>
+    body {
+        margin-left: 100px;
+        margin-top: 100px;
+    }
 
-<div id="pie_chart"></div>
+</style>
+
+<div class="row">
+    <div class="col">
+        <h1 style="position: relative; left: 200px;">Mood Summary</h1>
+        <div id="pie_chart"></div>
+    </div>
+
+    <div class="col">
+        <h1 style="position: relative; top: 80px;">Activity Ranking</h1>
+        <br>
+        <h5 style="position: relative; right: 470px; top: -200px; transform: rotate(-90deg);">Happiest 5 Activities</h5>
+        <h5 style="position: relative; right: 470px; top: 30px; transform: rotate(-90deg);">Unhappiest 5 Activities</h5>
+        <div class="card" style="width: 18rem;">
+            <ul class="list-group">
+                {% for item in best %}
+                    <li class="list-group-item" style="background-color: lightgreen;">{{ item }}</li>
+                {% endfor %}
+                <br>
+                <br>
+                {% for item in worst %}
+                    <li class="list-group-item" style="background-color: salmon;">{{ item }}</li>
+                {% endfor %}
+            </ul>
+          </div>          
+    </div>
+</div>
 
 
 <script>
@@ -14,8 +45,8 @@
     }];
 
     var layout = {
-        height: 400,
-        width: 500
+        height: 600,
+        width: 800
     };
 
     Plotly.newPlot('pie_chart', data, layout);
