@@ -15,6 +15,9 @@ def home(request):
 def profile(request):
     return render(request, 'Main/profile.html', context={'user': request.user})
 
+def index(request):
+    return render(request, 'Main/index.html')
+
 
 
 
