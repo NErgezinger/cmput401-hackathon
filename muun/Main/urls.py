@@ -11,6 +11,7 @@ urlpatterns = [
     path('summary/', views.summary),
     
 
+    path('index/', views.index, name='index'),
 
     # auth
     path('login/', views.login, name='login'),
