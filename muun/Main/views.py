@@ -115,6 +115,43 @@ def test_data(request):
     sortedScores = list(activityScores.items())
     print(sortedScores)
 
+    # Find overall average mood
+    total = 0
+    count = 0
+    for x in (Calendar.objects.all()[0].data.values()):
+        for score in x['score']:
+            total += int(x['score'])
+            count += 1
+    averageMood = total/count
+    print("average", averageMood)
+
+    bestActivities = []
+    worstActivites = []
+
+    if (len(sortedScores) < 10):
+        for x in sortedScores:
+            print(x[1])
+            if (x[1] > averageMood):
+                bestActivities.append(x[0])
+            else:
+                worstActivites.append(x[0])
+    else:
+        bestActivities.append(sortedScores[:5][0])
+        worstActivites.append(sortedScores[-5:][0])
+
+
+
+
+
+    print("best", bestActivities)
+    print("worst", worstActivites)
+
+
+
+        
+
+
+
     # length = len(activityScores)
     # fifth = length/5
     # for x in range(5):
