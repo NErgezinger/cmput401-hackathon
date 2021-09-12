@@ -140,9 +140,8 @@ def test_data(request):
     total = 0
     count = 0
     for x in (Calendar.objects.all()[0].data.values()):
-        for score in x['score']:
-            total += int(x['score'])
-            count += 1
+        total += int(x['mood'])
+        count += 1
     averageMood = total/count
     print("average", averageMood)
 
@@ -157,8 +156,13 @@ def test_data(request):
             else:
                 worstActivites.append(x[0])
     else:
-        bestActivities.append(sortedScores[:5][0])
-        worstActivites.append(sortedScores[-5:][0])
+        for x in sortedScores[-5:]:
+            bestActivities.append(x[0])
+        for x in sortedScores[:5]:
+            worstActivites.append(x[0])
+
+
+
 
 
 
