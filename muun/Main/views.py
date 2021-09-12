@@ -99,11 +99,11 @@ def test_data(request):
 
     c = Calendar.objects.create(data = {
         '2021/09/11': {
-            'activities' : ['activity1', 'activity2', 'activity3'],
+            'activities' : ['activity1', 'activity2', 'activity3', 'activity6', 'activity9'],
             'mood' : 1
         },
         '2021/09/10': {
-            'activities': ['activity2', 'activity4'],
+            'activities': ['activity2', 'activity4', 'activity5', 'activity7', 'activity8', 'activity10'],
             'mood': 2
         }
         })
@@ -118,7 +118,6 @@ def test_data(request):
     for activity in activities:
         total = 0
         count = 0
-        print('test')
         for x in (Calendar.objects.all()[0].data.values()):
             if activity in x['activities']:
                 total += int(x['mood'])
@@ -134,9 +133,8 @@ def test_data(request):
     total = 0
     count = 0
     for x in (Calendar.objects.all()[0].data.values()):
-        for score in x['score']:
-            total += int(x['score'])
-            count += 1
+        total += int(x['mood'])
+        count += 1
     averageMood = total/count
     print("average", averageMood)
 
@@ -151,8 +149,13 @@ def test_data(request):
             else:
                 worstActivites.append(x[0])
     else:
-        bestActivities.append(sortedScores[:5][0])
-        worstActivites.append(sortedScores[-5:][0])
+        for x in sortedScores[-5:]:
+            bestActivities.append(x[0])
+        for x in sortedScores[:5]:
+            worstActivites.append(x[0])
+
+
+
 
 
 
@@ -171,6 +174,7 @@ def test_data(request):
     # fifth = length/5
     # for x in range(5):
     #     print(str(x+1) + ' ' + sortedScores[round(fifth)][0])
+    #     print(fifth)
     #     fifth += length/5
     
     
