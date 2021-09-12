@@ -100,7 +100,6 @@ def test_data(request):
     for activity in activities:
         total = 0
         count = 0
-        print('test')
         for x in (Calendar.objects.all()[0].data.values()):
             if activity in x['activities']:
                 total += int(x['score'])
@@ -112,10 +111,20 @@ def test_data(request):
     sortedScores = list(activityScores.items())
     print(sortedScores)
 
+    # Find overall average mood
+    total = 0
+    count = 0
+    for x in (Calendar.objects.all()[0].data.values()):
+        for score in x['score']:
+            total += int(x['score'])
+            count += 1
+    averageMood = total/count
+    print(averageMood)
     # length = len(activityScores)
     # fifth = length/5
     # for x in range(5):
     #     print(str(x+1) + ' ' + sortedScores[round(fifth)][0])
+    #     print(fifth)
     #     fifth += length/5
     
     
