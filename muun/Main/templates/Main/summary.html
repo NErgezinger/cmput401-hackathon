@@ -1,0 +1,26 @@
+{% extends 'Main/base.html' %}
+
+{% block content %}
+
+
+<div id="pie_chart"></div>
+
+
+<script>
+    var data = [{
+        values: {{ mood_counts }},
+        labels: {{ mood_list | safe }},
+        type: 'pie'
+    }];
+
+    var layout = {
+        height: 400,
+        width: 500
+    };
+
+    Plotly.newPlot('pie_chart', data, layout);
+</script>
+
+
+
+{% endblock %}
