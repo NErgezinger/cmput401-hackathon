@@ -1,7 +1,8 @@
 {% extends 'Main/base.html' %}
 
 {% block content %}
-<form action="" method="POST">
+<div style="margin-left: 40%; top: 200px; position: relative;">
+<form action="" method="POST" style="background-color: rgba(0, 0, 0, 0);">
     {% csrf_token %}
 
     <h1>What did you do today?</h1>
@@ -18,7 +19,7 @@
     <ul class="list-group">
         {% for a in activities %}
             <div class="row">
-                <li class="list-group-item">
+                <li class="list-group-item" style="background-color: rgba(255, 255, 255, .5);">
                     <form action="" method="POST">
                         <h4>{{ a }}</h4> 
                         {% csrf_token %}
@@ -35,6 +36,8 @@
 <br><br>
 
 <a class="btn btn-info" href="/summary/">View Summary</a>
+
+</div>
 
 
 {% endblock %}

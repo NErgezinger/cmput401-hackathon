@@ -2,9 +2,10 @@
 
 {% block content %}
 
-<h1>How do you feel today?</h1>
 
-<form action="" method="POST">
+<div style="margin-left: 40%; top: 450px; position: relative;">
+<h1>How do you feel today?</h1>
+<form action="" method="POST" style="background-color: rgba(0, 0, 0, 0);">
     {% csrf_token %}
 
     <button class="btn btn-success" type="submit" name="mood" value="2">Amazing</button>
@@ -14,5 +15,6 @@
     <button class="btn btn-danger" type="submit" name="mood" value="-2">Terrible</button>
 
 </form>
+</div>
 
 {% endblock %}
