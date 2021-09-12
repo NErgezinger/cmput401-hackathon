@@ -98,15 +98,53 @@ def test_data(request):
     Calendar.objects.all().delete()
 
     c = Calendar.objects.create(data = {
-        '2021/09/11': {
-            'activities' : ['activity1', 'activity2', 'activity3', 'activity6', 'activity9'],
-            'mood' : 1
+        '2021/09/01': {
+            'activities' : ['running','studying', 'take shower'],
+            'mood' : 2
+        },
+        '2021/09/02': {
+            'activities': ['studying', 'take shower'],
+            'mood': -1
+        },
+        '2021/09/03': {
+            'activities': ['waking up', 'take shower'],
+            'mood': 0
+        },
+        '2021/09/04': {
+            'activities': ['bus came on time','waking up', 'take shower'],
+            'mood': 0
+        },
+        '2021/09/05': {
+            'activities': ['bus came late', 'take shower', 'waking up'],
+            'mood': -2
+        },
+        '2021/09/06': {
+            'activities': ['take shower', 'studying'],
+            'mood': 0
+        },
+        '2021/09/07': {
+            'activities': ['day dream', 'take shower'],
+            'mood': 1
+        },
+        '2021/09/08': {
+            'activities': ['Travel', 'take shower', 'bus came on time'],
+            'mood': 2
+        },
+        '2021/09/09': {
+            'activities': ['Cook', 'take shower', 'studying'],
+            'mood': 1
         },
         '2021/09/10': {
-            'activities': ['activity2', 'activity4', 'activity5', 'activity7', 'activity8', 'activity10'],
-            'mood': 2
+            'activities': ['Read','bus came late', 'take shower'],
+            'mood': -1
         }
-        })
+
+        }
+        
+        
+
+
+        )
     c.save()
     activities = []
     for x in (Calendar.objects.all()[0].data.values()):
@@ -154,7 +192,8 @@ def test_data(request):
         for x in sortedScores[:5]:
             worstActivites.append(x[0])
 
-
+    bestActivities.reverse()
+    worstActivites.reverse()
 
 
 
