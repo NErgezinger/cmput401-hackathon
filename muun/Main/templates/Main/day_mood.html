@@ -5,9 +5,11 @@
     {% csrf_token %}
 
     <label for="mood">Today's mood: </label>
-    <input type="text" name="mood" id="mood">
-
-    <input type="submit" value="Submit">
+    <button type="submit" name="mood" value="2">Amazing</button>
+    <button type="submit" name="mood" value="1">Good</button>
+    <button type="submit" name="mood" value="0">Neutral</button>
+    <button type="submit" name="mood" value="-1">Bad</button>
+    <button type="submit" name="mood" value="-2">Terrible</button>
 
 </form>
 

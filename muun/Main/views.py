@@ -82,6 +82,7 @@ def activities(request):
 
 def summary(request):
     calendar = Calendar.objects.all()[0].data
+    print(calendar)
 
     moods = ['amazing', 'good', 'neutral', 'bad', 'terrible']
 
@@ -89,8 +90,9 @@ def summary(request):
     mood_list = []
 
     for day, data in calendar.items():
-        days.append(day)
-        mood_list.append(data['mood'])
+        if 'mood' in data:
+            days.append(day)
+            mood_list.append(data['mood'])
 
     mood_counts = Counter(mood_list)
 
@@ -105,11 +107,11 @@ def test_data(request):
     c = Calendar.objects.create(data = {
         '2021/09/11': {
             'activities' : ['activity1', 'activity2', 'activity3'],
-            'score' : '10'
+            'mood' : 1
         },
         '2021/09/10': {
             'activities': ['activity2', 'activity4'],
-            'score': '20'
+            'mood': 2
         }
         })
     c.save()
@@ -126,7 +128,7 @@ def test_data(request):
         print('test')
         for x in (Calendar.objects.all()[0].data.values()):
             if activity in x['activities']:
-                total += int(x['score'])
+                total += int(x['mood'])
                 count += 1
         activityScores[activity] = total/count
     print(activityScores)
